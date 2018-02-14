@@ -14,7 +14,7 @@ void setup()
 {
   System.out.println("Hi");
   size(700, 500);
-  MyPort = new Serial(this, "COM4", 115200);// My Arduino is on COM3. Enter the COM on which your Arduino is on.
+  MyPort = new Serial(this, "COM5", 57600);// My Arduino is on COM3. Enter the COM on which your Arduino is on.
   MyPort.bufferUntil('\n');
 }
 void draw() {//Not really necessary
@@ -28,36 +28,30 @@ void serialEvent(Serial MyPort)throws Exception {
   System.out.println(KeyString);//prints the serial string for debugging purpose
   Robot Arduino = new Robot();//Constructor of robot class
   switch(KeyString) {
-  case "Left" :
-    Arduino.keyPress(KeyEvent.VK_ALT);//presses up key
-    Arduino.keyRelease(KeyEvent.VK_ALT);//releases up key
+  case "L" :
+    Arduino.keyPress(KeyEvent.VK_A);//presses up key
+    delay(18);
+    Arduino.keyRelease(KeyEvent.VK_A);//releases up key
     break;
-  case "Right" :
-    Arduino.keyPress(KeyEvent.VK_CONTROL);
-    Arduino.keyRelease(KeyEvent.VK_CONTROL);      
+  case "R" :
+    Arduino.keyPress(KeyEvent.VK_C);
+    delay(18);
+    Arduino.keyRelease(KeyEvent.VK_C);      
     break;
-  case "Special" :
-    Arduino.keyPress(KeyEvent.VK_SPACE);
-    Arduino.keyRelease(KeyEvent.VK_SPACE);      
+  case "S" :
+    Arduino.keyPress(KeyEvent.VK_S);
+    delay(18);
+    Arduino.keyRelease(KeyEvent.VK_S);      
     break;
-    //case "Drift" :
-   // Arduino.keyPress(KeyEvent.VK_TAB);
-   // Arduino.keyRelease(KeyEvent.VK_TAB);      
-   // break;
-  case "Forward" :
-    Arduino.keyPress(KeyEvent.VK_SHIFT);
-    //lastTime=millis()+pressTime;
-   //forwardPressed=true;
-   Arduino.keyRelease(KeyEvent.VK_SHIFT);
+  case "D" :
+    Arduino.keyPress(KeyEvent.VK_T);
+    delay(18);
+    Arduino.keyRelease(KeyEvent.VK_T);      
+    break;
+  case "F" :
+    Arduino.keyPress(KeyEvent.VK_D);
+    delay(18);
+    Arduino.keyRelease(KeyEvent.VK_D);
     break;
   }
-   //System.out.println(millis());
-  //currTime=millis();
-  // System.out.println("lastTime: "+lastTime+" currentTime: "+millis()+ " pressed? "+forwardPressed);
- // if (lastTime<millis()&& forwardPressed==true) {
-   // Arduino.keyRelease(KeyEvent.VK_D);
-   // forwardPressed=false;
- //}
- //System.out.println("lastTime: "+lastTime+" currentTime: "+millis()+ " pressed? "+forwardPressed);
-
 }
