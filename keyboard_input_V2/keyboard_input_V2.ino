@@ -10,12 +10,13 @@ const int RIGHT = A0;
 #define LED4  3
 #define LED5  2
 
-long currTime = -300;
+long pastTime=0; //used in measuring time for led
+long currTime =0;
 //bool dropPeak = true;//Has it dropped from its peak? int currTime = millis();
 bool firstInput = true;
 int numInputs = 0;
 
-int holdTime = 350;
+int delayTime = 350;
 
 int slow = 1000;
 int fast = 500;
@@ -42,6 +43,8 @@ void setup() {
   digitalWrite(A3, HIGH);
   digitalWrite(A4, HIGH);
   digitalWrite(A5, HIGH);
+
+  delay(delayTime);
 }
 
 void loop() {
@@ -60,7 +63,7 @@ void loop() {
 
     //Serial.print("measured time: ");
     //Serial.print(millis());
-
+    pastTime = currTime;
     currTime = millis();
     drive = HIGH;
     //dropPeak = false;
@@ -100,7 +103,7 @@ void loop() {
     //++numInputs;
   }
 
-  if ((currTime + 350) > millis()) {
+  if ((currTime + delayTime) > millis()) {
     checkIfFirstInput();
     Serial.print("F");
     //Serial.println("F:Extra");
@@ -115,7 +118,7 @@ void loop() {
   
 Serial.println("");
 delay(22);
-  //ledSpeed(currTime, pastTime); //Set the speed lights
+ledSpeed(currTime, pastTime); //Set the speedometer
 }
 //--------------------------FIRST INPUT?----------------------
 void checkIfFirstInput() {
