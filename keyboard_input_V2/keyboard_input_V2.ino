@@ -11,8 +11,9 @@ const int RIGHT = A0;
 #define LED5  2
 
 long currTime = -300;
-bool dropPeak = true;//Has it dropped from its peak? int currTime = millis();
-int pastTime = 0;
+//bool dropPeak = true;//Has it dropped from its peak? int currTime = millis();
+bool firstInput = true;
+int numInputs = 0;
 
 int holdTime = 350;
 
@@ -57,15 +58,15 @@ void loop() {
 
   if (drive == LOW) { //THIS MAY BREAK CHANGE TO analogRead
 
-    Serial.print("measured time: ");
-    Serial.print(millis());
+    //Serial.print("measured time: ");
+    //Serial.print(millis());
 
     currTime = millis();
     drive = HIGH;
-    dropPeak = false;
-    Serial.print(" current time:");
-    Serial.println(currTime);
-    delay(2);
+    //dropPeak = false;
+    //Serial.print(" current time:");
+    //Serial.println(currTime);
+    //delay(2);
   } else {
     //else if (digitalRead(FORWARD) == LOW) { //THIS MAY BREAK CHANGE TO analogRead
     drive = HIGH;
@@ -73,36 +74,57 @@ void loop() {
   }
 
   if (digitalRead(LEFT) == LOW) {
-    Serial.println("L:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
-    delay(25);
+    checkIfFirstInput();
+    Serial.print("L");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    // delay(25);
+    //++numInputs;
   }
 
   if (digitalRead(RIGHT) == LOW) {
-    Serial.println("R:");
-    delay(25);
+    checkIfFirstInput();
+    Serial.print("R");
+    //delay(25);
+    //++numInputs;
   }
 
   if (digitalRead(SPECIAL) == LOW) {
-    Serial.println("S:");
-    delay(25);
+    checkIfFirstInput();
+    Serial.print("S");
+    //delay(25);
+    //++numInputs;
   }
   if (digitalRead(DRIFT) == LOW) {
-    Serial.println("D:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
-    delay(25);
+    checkIfFirstInput();
+    Serial.print("D");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    //delay(25);
+    //++numInputs;
   }
 
   if ((currTime + 350) > millis()) {
-    //Serial.println("F:");
-    Serial.println("F:Extra");
-     Serial.print("in Loop!");
-     Serial.print("measured time: ");
-    Serial.print(millis());
-    delay(20);
-        Serial.print(" current time:");
-    Serial.println(currTime+350);
-  }
+    checkIfFirstInput();
+    Serial.print("F");
+    //Serial.println("F:Extra");
+    //Serial.print("in Loop!");
+    //Serial.print("measured time: ");
+    //Serial.print(millis());
+    //delay(20);
+    //Serial.print(" current time:");
+    //Serial.println(currTime+350);
 
+  }
+  
+Serial.println("");
+delay(22);
   //ledSpeed(currTime, pastTime); //Set the speed lights
+}
+//--------------------------FIRST INPUT?----------------------
+void checkIfFirstInput() {
+  if (firstInput == false) {
+    Serial.print(":");
+  }
+  else {
+    firstInput = false;
+  }
 }
 //-------------------------------LED----------------------------
 void ledSpeed(int CT, int PT) {
