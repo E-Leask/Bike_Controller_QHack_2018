@@ -52,7 +52,7 @@ void loop() {
   // Serial.print("R:"+analogRead(RIGHT));
 
 
-  //--------------------INPUTS------------------------------
+  //--------------------INPUTS--------------------------------------
   //if (digitalRead(FORWARD) == HIGH && digitalRead(FORWARD) == HIGH && digitalRead(FORWARD) == HIGH) {
   //Serial.println("Forwardboost:");
   //}
