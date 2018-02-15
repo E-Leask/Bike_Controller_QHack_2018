@@ -57,55 +57,55 @@ void loop() {
   //Serial.println("Forwardboost:");
   //}
   //else
-  bool drive = digitalRead(FORWARD);
+  int drive = analogRead(FORWARD);
 
-  if (drive == LOW) { //THIS MAY BREAK CHANGE TO analogRead
+  if (drive <800 ) { //THIS MAY BREAK CHANGE TO analogRead
 
     //Serial.print("measured time: ");
     //Serial.print(millis());
     pastTime = currTime;
     currTime = millis();
-    drive = HIGH;
+    drive = 1000;
     //dropPeak = false;
     //Serial.print(" current time:");
     //Serial.println(currTime);
     //delay(2);
   } else {
     //else if (digitalRead(FORWARD) == LOW) { //THIS MAY BREAK CHANGE TO analogRead
-    drive = HIGH;
-    dropPeak = true;
+    drive = 1000;
+    //dropPeak = true;
   }
 
   if (digitalRead(LEFT) == LOW) {
     checkIfFirstInput();
-    Serial.print("L");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    Serial.print("L:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
     // delay(25);
     //++numInputs;
   }
 
   if (digitalRead(RIGHT) == LOW) {
     checkIfFirstInput();
-    Serial.print("R");
+    Serial.print("R:");
     //delay(25);
     //++numInputs;
   }
 
   if (digitalRead(SPECIAL) == LOW) {
     checkIfFirstInput();
-    Serial.print("S");
+    Serial.print("S:");
     //delay(25);
     //++numInputs;
   }
   if (digitalRead(DRIFT) == LOW) {
     checkIfFirstInput();
-    Serial.print("D");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    Serial.print("D:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
     //delay(25);
     //++numInputs;
   }
 
   if ((currTime + delayTime) > millis()) {
     checkIfFirstInput();
-    Serial.print("F");
+    Serial.print("F:");
     //Serial.println("F:Extra");
     //Serial.print("in Loop!");
     //Serial.print("measured time: ");
@@ -116,18 +116,18 @@ void loop() {
 
   }
   
-Serial.println("");
+if(firstInput==false){
+  Serial.println("");
+  }
 delay(22);
-ledSpeed(currTime, pastTime); //Set the speedometer
+firstInput=true;
+//ledSpeed(currTime, pastTime); //Set the speedometer
 }
 //--------------------------FIRST INPUT?----------------------
 void checkIfFirstInput() {
-  if (firstInput == false) {
-    Serial.print(":");
-  }
-  else {
-    firstInput = false;
-  }
+  if (firstInput == true) {
+  firstInput = false;}
+  
 }
 //-------------------------------LED----------------------------
 void ledSpeed(int CT, int PT) {
