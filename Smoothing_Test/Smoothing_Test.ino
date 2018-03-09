@@ -5,11 +5,13 @@ const int SPECIAL = A3;
 const int DRIFT = A4;
 
 
-int delayTime=750;
-long currTime =0;
-bool firstInput=true;
+int delayTime = 500;
+long currTime = 0;
+long millisSec = 0;
+int delayMillisSec=25;
+bool firstInput = true;
 
-
+bool printVal[] = {false, false, false, false, false};
 // Define the number of samples to keep track of.  The higher the number,
 // the more the readings will be smoothed, but the slower the output will
 // respond to the input.  Using a constant rather than a normal variable lets
@@ -25,7 +27,7 @@ int average = 0;                // the average
 
 
 void setup() {
-   Serial.begin(9600);
+  Serial.begin(57600);
   pinMode(FORWARD,  INPUT);
   pinMode(LEFT,     INPUT);
   pinMode(RIGHT,    INPUT);
@@ -41,7 +43,7 @@ void setup() {
 
   //delay(delayTime+50);
   // initialize serial communication with computer:
- 
+
   // initialize all the readings to 0:
   for (int thisReading = 0; thisReading < numReadings; thisReading++) {
     readings[thisReading] = 0;
@@ -49,6 +51,7 @@ void setup() {
 }
 
 void loop() {
+  // if(millisSec<millis()){
   //Serial.println(average);
   // subtract the last reading:
   total = total - readings[readIndex];
@@ -68,49 +71,83 @@ void loop() {
   // calculate the average:
   average = total / numReadings;
   // send it to the computer as ASCII digits
-//Serial.println(average);
+  //Serial.println(average);
 
- if (average <1000 ) { //THIS MAY BREAK CHANGE TO analogRead
+  if (average < 1000 ) { //THIS MAY BREAK CHANGE TO analogRead
     currTime = millis();
-   
+
   }
 
-   if ((currTime + delayTime) > millis()&&millis()>(delayTime+50)) {
-  // Serial.print("Current Time:");
+  if ((currTime + delayTime) > millis() && millis() > (delayTime + 50)) {
+    // Serial.print("Current Time:");
     //Serial.print(currTime);
     //Serial.print(" Millis():");
     //Serial.println(millis());
     checkIfFirstInput();
-    Serial.print("F:");
+    //Serial.print("F:");
+    printVal[0] = true;
   }
-   if (digitalRead(LEFT) == LOW) {
+  if (digitalRead(LEFT) == LOW) {
     checkIfFirstInput();
-    Serial.print("L:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    //Serial.print("L:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    printVal[1] = true;
+
   }
 
   if (digitalRead(RIGHT) == LOW) {
     checkIfFirstInput();
-    Serial.print("R:");
+    //    Serial.print("R:");
+    printVal[2] = true;
   }
-   if (digitalRead(SPECIAL) == LOW) {
+  if (digitalRead(SPECIAL) == LOW) {
     checkIfFirstInput();
-    Serial.print("S:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    //Serial.print("S:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    printVal[3] = true;
   }
- //Serial.print(0);
+  if (digitalRead(DRIFT) == LOW) {
+    checkIfFirstInput();
+    //Serial.print("S:");//It doesn't matter what you print. Just have a colon at the end to make it easier to parse the string.
+    printVal[4] = true;
+  }
+  //Serial.print(0);
   //Serial.print(",");
   //Serial.print(100);
   //Serial.print(",");
   //Serial.println(average);
-  if(firstInput==false){
-  Serial.println("N");
+
+  if (millisSec < millis()) {
+    if (firstInput == false) {
+      if (printVal[0] == true) {
+         Serial.print("F:");
+      }  
+      if (printVal[1] == true) {
+         Serial.print("L:");
+      } 
+      if (printVal[2] == true) {
+         Serial.print("R:");
+      }  
+      if (printVal[3] == true) {
+        Serial.print("S:");
+      } 
+      if (printVal[4] == true) {
+        Serial.print("D:");
+      }
+      Serial.println("N");
+    }
+//    for (int i = 0; i < 5; ++i)
+//    Serial.println(printVal[i]);
+    millisSec=millis()+delayMillisSec;
+    firstInput = true;
+    for (int i = 0; i < 5; ++i)
+    printVal[i] = false;
+    
   }
-  firstInput=true;
-  delay(25);        // delay in between reads for stability
 }
 //--------------------------FIRST INPUT?----------------------
 void checkIfFirstInput() {
   if (firstInput == true) {
-  firstInput = false;}
-  
+    firstInput = false;
+  }
+
 }
 

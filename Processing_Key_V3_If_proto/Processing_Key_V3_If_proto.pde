@@ -14,7 +14,7 @@ void setup()
 {
  System.out.println("Hi");
   size(200, 200);
-  MyPort = new Serial(this, "COM5", 57600);// My Arduino is on COM3. Enter the COM on which your Arduino is on.
+  MyPort = new Serial(this, "COM5", 9600);// My Arduino is on COM3. Enter the COM on which your Arduino is on.
   MyPort.bufferUntil('\n');
 }
 void draw() {//Not really necessary
@@ -30,39 +30,43 @@ void serialEvent(Serial MyPort)throws Exception {
   int i=0;
   Robot Arduino = new Robot();//Constructor of robot class
   //System.out.println("index value=" +i+" Array Value="+inputStr[i]);
-  if (inputStr[i].equals("F")) { 
-     ++i;
+  if (!inputStr[i].equals("F")) { 
+      Arduino.keyRelease(KeyEvent.VK_D);
+   } else {
+   ++i;
      //System.out.println("Forward");
    Arduino.keyPress(KeyEvent.VK_D);
     //delay(18);
-   }
+  }
     //System.out.println("index value=" +i+" Array Value="+inputStr[i]);
-  if (inputStr[i].equals("L")) {
+  if (!inputStr[i].equals("L")) {
+  Arduino.keyRelease(KeyEvent.VK_A);
+  }else{
     ++i;
     Arduino.keyPress(KeyEvent.VK_A);//presses up key
     //delay(18);
   }
    //dSystem.out.println("index value=" +i+" Array Value="+inputStr[i]);
-   if (inputStr[i].equals("R")) {
+   if (!inputStr[i].equals("R")) {
+      Arduino.keyRelease(KeyEvent.VK_C);
+   }else{
      ++i;
     Arduino.keyPress(KeyEvent.VK_C);
     //delay(18);
    }
-   if (inputStr[i].equals("S")) {   
+   if (!inputStr[i].equals("S")) {  
+       Arduino.keyRelease(KeyEvent.VK_S);  
+   }else{
      ++i;
     Arduino.keyPress(KeyEvent.VK_S);
     //delay(18);
    }
-  if (inputStr[i].equals("D")) { 
+  if (!inputStr[i].equals("D")) { 
+     Arduino.keyRelease(KeyEvent.VK_T);
+  }else{
     ++i;
     Arduino.keyPress(KeyEvent.VK_T);
    //delay(18);
   }
-   
-   delay(17);
-   Arduino.keyRelease(KeyEvent.VK_A);//releases up key
-   Arduino.keyRelease(KeyEvent.VK_C);
-   Arduino.keyRelease(KeyEvent.VK_S);  
-   Arduino.keyRelease(KeyEvent.VK_T);
-   Arduino.keyRelease(KeyEvent.VK_D);
+ 
 }
