@@ -33,7 +33,7 @@ void serialEvent(Serial MyPort)throws Exception {
   if (inputStr[i].equals("F")) { 
      ++i;
      //System.out.println("Forward");
-   Arduino.keyPress(KeyEvent.VK_D);
+   Arduino.keyPress(KeyEvent.VK_W);
     //delay(18);
    }
     //System.out.println("index value=" +i+" Array Value="+inputStr[i]);
@@ -45,17 +45,22 @@ void serialEvent(Serial MyPort)throws Exception {
    //dSystem.out.println("index value=" +i+" Array Value="+inputStr[i]);
    if (inputStr[i].equals("R")) {
      ++i;
-    Arduino.keyPress(KeyEvent.VK_C);
+    Arduino.keyPress(KeyEvent.VK_D);
     //delay(18);
    }
    if (inputStr[i].equals("S")) {   
      ++i;
-    Arduino.keyPress(KeyEvent.VK_S);
+    Arduino.keyPress(KeyEvent.VK_C);
     //delay(18);
    }
   if (inputStr[i].equals("D")) { 
     ++i;
-    Arduino.keyPress(KeyEvent.VK_T);
+    Arduino.keyPress(KeyEvent.VK_Z);
+   //delay(18);
+  }
+  if (inputStr[i].equals("B")) { 
+    ++i;
+    Arduino.keyPress(KeyEvent.VK_S);
    //delay(18);
   }
    
