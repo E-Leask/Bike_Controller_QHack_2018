@@ -1,9 +1,10 @@
+#include <Keyboard.h>
 #define LEFT A0
-#define INP1 2
-#define INP2 3
-#define RIGHT A2
-#define SPECIAL A3
-#define DRIFT A4
+#define INP1 3
+#define INP2 7
+#define RIGHT A1
+#define SPECIAL A2
+#define DRIFT A3
 
 long dif[2] = {1, 1};
 long t[3]; //time
@@ -34,7 +35,7 @@ void setup() {
   digitalWrite(DRIFT, HIGH);
 
   attachInterrupt(0, upd81, RISING);
-  attachInterrupt(1, upd82, RISING);
+  attachInterrupt(4, upd82, RISING);
 }
 
 void loop() {
@@ -60,26 +61,33 @@ void loop() {
     printVal[4] = true;
   }
   if (millisSec < millis()) {
+    Keyboard.releaseAll();
     if (firstInput == false) {
       if (printVal[0] == true) {
-        Serial.print("F:");
+        //Serial.print("F:");
+        Keyboard.press('f');
       }
       if (printVal[1] == true) {
-        Serial.print("L:");
+        //Serial.print("L:");
+      Keyboard.press('l');
       }
       if (printVal[2] == true) {
-        Serial.print("R:");
+        //Serial.print("R:");
+        Keyboard.press('r');
       }
       if (printVal[3] == true) {
-        Serial.print("S:");
+        //Serial.print("S:");
+        Keyboard.press('s');     
       }
       if (printVal[4] == true) {
-        Serial.print("D:");
+        //Serial.print("D:");
+        Keyboard.press('d');
       }
       if (printVal[5] == true) {
-        Serial.print("B:");
+        //Serial.print("B:");
+        Keyboard.press('b');
       }
-      Serial.println("N");
+      //Serial.println("N");
     }
     millisSec = millis() + delayMillisSec;
     firstInput = true;
@@ -90,6 +98,7 @@ void loop() {
 }
 //------------Interrupts----------------------------------
 void upd81() {
+  Serial.println("81");
   if (v[2] != INP1) { //If most recent input is not itself
     t[0] = t[1];//Update times
     t[1] = t[2];
@@ -104,6 +113,7 @@ void upd81() {
   }
 }
 void upd82() {
+  Serial.println("82");
   if (v[2] != INP2) {
     t[0] = t[1];
     t[1] = t[2];
@@ -133,4 +143,3 @@ void checkIfFirstInput() {
   }
 
 }
-
